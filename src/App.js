@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import ToDOList from './ToDOList';
 import TForm from './TForm';
-import TComplete from './TComplete';
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [todosComplete, setTodosComplete] = useState([]);
+  //const [todosComplete, setTodosComplete] = useState([]);
 
   const addTask = (userInput) => {
     if (userInput) {
@@ -20,30 +19,31 @@ function App() {
 
   const removeTask = (id) => {
     setTodos([...todos.filter((todo) => todo.id !== id)]);
-    setTodosComplete([...todosComplete.filter((todo) => todo.id !== id)]);
+   // setTodosComplete([...todosComplete.filter((todo) => todo.id !== id)]);
 
 
 
   }
 
   const handleChangeComplete = (id) => {
-    // todos.map((todo) => todo.id == id ? {...todo, complete: !todo.complete} : {...todo});
+    //todos.map((todo) => todo.id == id ? {...todo, complete: !todo.complete} : {...todo});
     //setTodosComplete ([...todos.filter((todo) => todo.complete)]);
     // setTodos ([...todos.filter((todo) => !todo.complete)]);
 
-    setTodosComplete([...todosComplete, ...todos.filter((todo) => todo.id == id)]);
-    setTodos([...todos.filter((todo) => todo.id !== id)]);
-    // setTodos([...todos.map((todo) => todo.id == id ? {...todo, complete: !todo.complete} : {...todo})]);
+    //setTodosComplete([...todosComplete, ...todos.filter((todo) => todo.id == id)]);
+   // setTodos([...todos.filter((todo) => todo.id !== id)]);
+    setTodos([...todos.map((todo) => todo.id == id ? {...todo, complete: !todo.complete} : {...todo})]);
     //setTodosComplete ([...todos.filter((todo) => todo.complete)]);
 
 
     //
   }
 
-  const unComplete = (id) => {
+ /* const unComplete = (id) => {
     setTodos([...todos, ...todosComplete.filter((todo) => todo.id == id)]);
     setTodosComplete([...todosComplete.filter((todo) => todo.id !== id)]);
-  }
+  }*/
+
   const date = new Date();
   let dayOfMonth = date.getDate();
   let month = date.getMonth() + 1;
@@ -60,37 +60,32 @@ function App() {
       <TForm addTask={addTask} />
       <h1>Активные задачи: {todos.length}</h1>
       {todos.map((todo) => {
+        if (!todo.complete) {
         return (
           <ToDOList
             todo={todo}
             key={todo.id}
             removeTask={removeTask}
             handleChangeComplete={handleChangeComplete}
+          
           />
-        )
+        ) }
       })
-
-
       }
-      <h1> Завершенные задачи : {todosComplete.length}</h1>
-      {todosComplete.map((todoComplete) => {
+
+      {todos.map((todo) => {
+        if (todo.complete) {
         return (
-          <TComplete
-            todoComplete={todoComplete}
-            key={todoComplete.id}
+          <ToDOList
+            todo={todo}
+            key={todo.id}
             removeTask={removeTask}
-            unComplete={unComplete}
+            handleChangeComplete={handleChangeComplete}
+          
           />
-        )
+        ) }
+      })
       }
-
-      )
-      }
-
-
-
-
-
     </div>
   );
 }

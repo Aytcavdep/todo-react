@@ -6,7 +6,8 @@ function ToDOList({ todo, handleChangeComplete, removeTask }) {
         removeTask(id)
     }
     return (
-        <div key={id} className='item-todo'>
+       <div key={id} className='item-todo'>       
+
             <div className={complete ? 'item-text strike' : 'item-text'} onClick={() => handleChangeComplete(id)}>
                 {task}
             </div>
@@ -14,8 +15,9 @@ function ToDOList({ todo, handleChangeComplete, removeTask }) {
             <div className='item-delete' onClick={handleRemove}>
                 X
             </div>
-
+            
         </div>
+        
     )
 
 }
